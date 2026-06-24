@@ -1,0 +1,40 @@
+{
+  "name": "agro-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "import:adama": "tsx src/scripts/import-adama.ts",
+    "import:nufarm": "NODE_OPTIONS='--experimental-fetch --require ./src/scripts/node18-web-polyfills.cjs' tsx src/scripts/import-nufarm.ts",
+    "import:nufarm:pdf": "NODE_OPTIONS='--experimental-fetch --require ./src/scripts/node18-web-polyfills.cjs' tsx src/scripts/import-nufarm-pdf.ts",
+    "seed:active-ingredients": "tsx src/scripts/seed-active-ingredients.ts",
+    "seed:formulation-types": "tsx src/scripts/seed-formulation-types.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.4",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.100.1",
+    "@fastify/cors": "^11.2.0",
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/swagger": "^9.7.0",
+    "@fastify/swagger-ui": "^5.2.6",
+    "@supabase/supabase-js": "^2.106.2",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.8.5",
+    "pdf-parse": "^2.4.5",
+    "slugify": "^1.6.9",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "playwright": "^1.60.0",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3"
+  }
+}
