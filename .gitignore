@@ -2,3 +2,6 @@ node_modules/
 dist/
 .env
 *.log
+.nufarm-browser/
+.idea/
+data/
