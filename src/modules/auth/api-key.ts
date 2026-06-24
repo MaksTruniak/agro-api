@@ -48,6 +48,8 @@ export async function requireApiKey(
         allowed_domains?: string[]
     } | null
 
+    console.log('AUTH DEBUG:', { keyHash, error: error?.message, data: data ? { is_active: data.is_active, client: client } : null })
+
     if (error || !data || !data.is_active || !client?.is_active) {
         return reply.code(401).send({
             error: 'Invalid API key'
