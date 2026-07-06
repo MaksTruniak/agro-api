@@ -64,18 +64,10 @@ export async function activeIngredientsRoutes(app: FastifyInstance) {
         const normalized = q.toLowerCase().trim()
 
         const { data, error } = await supabase
-            .from('active_ingredient_aliases')
-            .select(`
-        active_ingredient_id,
-        alias,
-        normalized_alias,
-        active_ingredients (
-          id,
-          name,
-          description
-        )
-      `)
-            .ilike('normalized_alias', `%${normalized}%`)
+            .from('active_ingredients')
+            .select('id, name, description')
+            .ilike('name', `%${normalized}%`)
+            .order('name')
             .limit(20)
 
         if (error) {
@@ -85,12 +77,7 @@ export async function activeIngredientsRoutes(app: FastifyInstance) {
         }
 
         return {
-            items: (data || []).map((item: any) => ({
-                ...item,
-                active_ingredients: item.active_ingredients
-                    ? withActiveIngredientSlug(item.active_ingredients)
-                    : null
-            }))
+            items: (data || []).map((item: any) => withActiveIngredientSlug(item))
         }
     })
 
