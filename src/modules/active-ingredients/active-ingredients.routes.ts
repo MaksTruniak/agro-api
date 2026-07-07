@@ -50,6 +50,32 @@ async function findActiveIngredients(slugOrId: string) {
 }
 
 export async function activeIngredientsRoutes(app: FastifyInstance) {
+    app.get('/v1/active-ingredients', {
+        preHandler: requireApiKey
+    }, async (request, reply) => {
+        const { q, limit = '50', offset = '0', letter } = request.query as { q?: string; limit?: string; offset?: string; letter?: string }
+
+        let query = supabase
+            .from('active_ingredients')
+            .select('id, name, description', { count: 'exact' })
+            .order('name')
+            .range(Number(offset), Number(offset) + Number(limit) - 1)
+
+        if (q) query = query.ilike('name', `%${q.trim()}%`)
+        if (letter) query = query.ilike('name', `${letter}%`)
+
+        const { data, error, count } = await query
+
+        if (error) return reply.code(500).send({ error: error.message })
+
+        return {
+            items: (data || []).map((item: any) => withActiveIngredientSlug(item)),
+            total: count || 0,
+            limit: Number(limit),
+            offset: Number(offset),
+        }
+    })
+
     app.get('/v1/active-ingredients/search', {
         preHandler: requireApiKey
     }, async (request, reply) => {
