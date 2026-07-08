@@ -12,7 +12,8 @@ import { productTypesRoutes } from './modules/product-types/product-types.routes
 import { manufacturersRoutes } from './modules/manufacturers/manufacturers.routes'
 import { catalogRoutes } from './modules/catalog/catalog.routes'
 import { adminRoutes } from './modules/admin/admin.routes'
-import { aiRoutes } from './modules/ai/ai.routes';
+import { aiRoutes } from './modules/ai/ai.routes'
+import { fertilizersRoutes } from './modules/fertilizers/fertilizers.routes'
 async function main() {
     const app = Fastify({
         logger: true
@@ -72,6 +73,7 @@ async function main() {
     await app.register(adminRoutes)
 
     await app.register(aiRoutes)
+    await app.register(fertilizersRoutes)
 
     const port = Number(process.env.PORT || 4000)
 
