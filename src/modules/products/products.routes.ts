@@ -466,13 +466,15 @@ export async function productsRoutes(app: FastifyInstance) {
             manufacturer,
             q,
             limit = '15',
-            page = '1'
+            page = '1',
+            exclude_types,
         } = request.query as {
             type?: string
             manufacturer?: string
             q?: string
             limit?: string
             page?: string
+            exclude_types?: string
         }
 
         const pageNumber = Math.max(Number(page), 1)
@@ -516,6 +518,11 @@ export async function productsRoutes(app: FastifyInstance) {
 
         if (type) {
             query = query.eq('type', type)
+        }
+
+        if (exclude_types) {
+            const excluded = exclude_types.split(',').map(s => s.trim()).filter(Boolean)
+            if (excluded.length) query = query.not('type', 'in', `(${excluded.join(',')})`)
         }
 
         if (manufacturer) {
