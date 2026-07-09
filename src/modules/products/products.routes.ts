@@ -469,6 +469,7 @@ export async function productsRoutes(app: FastifyInstance) {
             page = '1',
             exclude_types,
             include_types,
+            seed_crop,
         } = request.query as {
             type?: string
             manufacturer?: string
@@ -477,6 +478,7 @@ export async function productsRoutes(app: FastifyInstance) {
             page?: string
             exclude_types?: string
             include_types?: string
+            seed_crop?: string
         }
 
         const pageNumber = Math.max(Number(page), 1)
@@ -495,6 +497,10 @@ export async function productsRoutes(app: FastifyInstance) {
   type,
   source_image_url,
   market_segment,
+  seed_crop,
+  seed_maturity_group,
+  seed_yield_potential,
+  seed_recommended_zone,
   ${manufacturerRelation} (
     name,
     slug
@@ -530,6 +536,10 @@ export async function productsRoutes(app: FastifyInstance) {
             if (excluded.length) query = query.not('type', 'in', `(${excluded.join(',')})`)
         }
 
+        if (seed_crop) {
+            query = query.eq('seed_crop', seed_crop)
+        }
+
         if (manufacturer) {
             query = query.eq('manufacturers.slug', manufacturer)
         }
@@ -558,6 +568,10 @@ export async function productsRoutes(app: FastifyInstance) {
                     type: product.type,
                     source_image_url: product.source_image_url,
                     market_segment: product.market_segment,
+                    seed_crop: product.seed_crop,
+                    seed_maturity_group: product.seed_maturity_group,
+                    seed_yield_potential: product.seed_yield_potential,
+                    seed_recommended_zone: product.seed_recommended_zone,
                     manufacturer,
                     manufacturers: manufacturer,
                     formulation_type: formulationType,
