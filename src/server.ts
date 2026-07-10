@@ -14,6 +14,8 @@ import { catalogRoutes } from './modules/catalog/catalog.routes'
 import { adminRoutes } from './modules/admin/admin.routes'
 import { aiRoutes } from './modules/ai/ai.routes'
 import { fertilizersRoutes } from './modules/fertilizers/fertilizers.routes'
+import { weedsRoutes } from './modules/weeds/weeds.routes'
+import { diseasesRoutes } from './modules/diseases/diseases.routes'
 async function main() {
     const app = Fastify({
         logger: true
@@ -74,6 +76,8 @@ async function main() {
 
     await app.register(aiRoutes)
     await app.register(fertilizersRoutes)
+    await app.register(weedsRoutes)
+    await app.register(diseasesRoutes)
 
     const port = Number(process.env.PORT || 4000)
 
